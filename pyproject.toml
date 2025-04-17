@@ -1,0 +1,11 @@
+[project]
+name = "search-docs-mcp"
+version = "0.1.0"
+description = "Search the latest docs for a given query and library."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "bs4>=0.0.2",
+    "httpx>=0.28.1",
+    "mcp[cli]>=1.6.0",
+]

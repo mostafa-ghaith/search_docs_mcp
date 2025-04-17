@@ -36,7 +36,14 @@ async def fetch_url(url: str):
         try:
             response = await client.get(url, timeout=30.0)
             soup = BeautifulSoup(response.text, "html.parser")
+            # Get text and clean it up
             text = soup.get_text()
+            # Split into lines and clean each line
+            lines = [line.strip() for line in text.splitlines()]
+            # Remove empty lines and join with single newlines
+            text = '\n'.join(line for line in lines if line)
+            # Replace multiple spaces with single space
+            text = ' '.join(text.split())
             return text
         except httpx.TimeoutException:
             return "Timeout error"

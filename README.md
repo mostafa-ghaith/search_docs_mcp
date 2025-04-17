@@ -2,6 +2,8 @@
 
 A powerful MCP (Model Control Protocol) tool that enables semantic search across multiple AI library documentations. This tool helps you quickly find relevant information from popular AI libraries' documentation.
 
+> Special thanks to [Alejandro AO](https://github.com/alejandro-ao) for his wonderful tutorial on creating MCP servers. This project was inspired by his work and uses his implementation patterns.
+
 ## Features
 
 - 🔍 Search across multiple AI library documentations:
@@ -20,12 +22,13 @@ A powerful MCP (Model Control Protocol) tool that enables semantic search across
 
 - Python 3.12 or higher
 - Serper API key (for web search functionality)
+- MCP SDK 1.2.0 or higher
 
 ## Installation
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/search-docs-mcp.git
+git clone https://github.com/mostafa-ghaith/search-docs-mcp.git
 cd search-docs-mcp
 ```
 
@@ -60,6 +63,8 @@ DOCS_CONFIG = {
 
 ## Usage
 
+### As an MCP Server
+
 The tool can be used as part of an MCP-based application. Here's an example of how to use it:
 
 ```python
@@ -71,6 +76,34 @@ mcp = FastMCP("docs")
 # You can search documentation like this:
 result = await mcp.get_docs(query="Chroma DB", library="langchain")
 ```
+
+### Connecting to Claude Desktop or Cursor
+
+1. For Claude Desktop:
+   - Edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
+   ```json
+   {
+       "mcpServers": {
+           "search-docs-mcp": {
+               "command": "uv",
+               "args": [
+                   "--directory",
+                   "/ABSOLUTE/PATH/TO/YOUR/search-docs-mcp",
+                   "run",
+                   "main.py"
+               ]
+           }
+       }
+   }
+   ```
+
+2. For Cursor:
+   - Navigate to Cursor Settings
+   - Open the MCP tab
+   - Click on "Add new global MCP server"
+   - Add the server configuration similar to Claude Desktop
+
+3. Restart the application to apply changes
 
 ## API Reference
 
@@ -95,6 +128,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Acknowledgments
 
+- [Alejandro AO](https://github.com/alejandro-ao) for the MCP server tutorial and implementation patterns
 - [MCP](https://github.com/your-mcp-repo) for the framework
 - [Serper](https://serper.dev) for the search API
 - All the documentation providers for their valuable content

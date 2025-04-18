@@ -36,14 +36,53 @@ async def fetch_url(url: str):
         try:
             response = await client.get(url, timeout=30.0)
             soup = BeautifulSoup(response.text, "html.parser")
-            # Get text and clean it up
-            text = soup.get_text()
-            # Split into lines and clean each line
-            lines = [line.strip() for line in text.splitlines()]
-            # Remove empty lines and join with single newlines
-            text = '\n'.join(line for line in lines if line)
-            # Replace multiple spaces with single space
-            text = ' '.join(text.split())
+            
+            # Remove script and style elements
+            for script in soup(["script", "style", "nav", "footer", "header"]):
+                script.decompose()
+            
+            # Get the main content (usually in main, article, or content divs)
+            main_content = soup.find('main') or soup.find('article') or soup.find('div', class_='content')
+            if main_content:
+                soup = main_content
+            
+            # Convert to markdown-like format
+            markdown = []
+            
+            # Process headings
+            for heading in soup.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6']):
+                level = int(heading.name[1])
+                markdown.append(f"{'#' * level} {heading.get_text().strip()}\n")
+            
+            # Process paragraphs
+            for p in soup.find_all('p'):
+                text = p.get_text().strip()
+                if text:
+                    markdown.append(f"{text}\n\n")
+            
+            # Process lists
+            for ul in soup.find_all('ul'):
+                for li in ul.find_all('li'):
+                    markdown.append(f"- {li.get_text().strip()}\n")
+                markdown.append("\n")
+            
+            for ol in soup.find_all('ol'):
+                for i, li in enumerate(ol.find_all('li'), 1):
+                    markdown.append(f"{i}. {li.get_text().strip()}\n")
+                markdown.append("\n")
+            
+            # Process code blocks
+            for pre in soup.find_all('pre'):
+                code = pre.get_text().strip()
+                markdown.append(f"```\n{code}\n```\n\n")
+            
+            # Join all markdown elements and clean up
+            text = ''.join(markdown)
+            # Remove excessive newlines
+            text = '\n'.join(line for line in text.splitlines() if line.strip())
+            # Ensure proper spacing between sections
+            text = '\n\n'.join(text.split('\n\n'))
+            
             return text
         except httpx.TimeoutException:
             return "Timeout error"

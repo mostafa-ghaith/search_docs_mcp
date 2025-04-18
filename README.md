@@ -1,6 +1,12 @@
 # Search Docs MCP
 
-A powerful MCP (Model Control Protocol) tool that enables semantic search across multiple AI library documentations. This tool helps you quickly find relevant information from popular AI libraries' documentation.
+![Search Docs MCP Banner](search_docs_mcp_banner_pixel.png)
+
+Ever found yourself in a situation where your coding angel (or agent) stares blankly at you when you ask about the latest AI library? 🤔 That's because they're still catching up with the training data from 2023! 
+
+This MCP (Model Context Protocol) tool is your secret weapon against outdated knowledge. It enables semantic search across multiple AI library documentations, ensuring your coding companion stays up-to-date with the latest tech. No more "I'm sorry, I don't have information about that" moments!
+
+Simply configure your favorite libraries in the config file, and let your coding angel do the heavy lifting of finding the exact information you need from the official docs. It's like giving your AI assistant a direct line to the source of truth! 🚀
 
 > Special thanks to [Alejandro AO](https://github.com/alejandro-ao) for his wonderful tutorial on creating MCP servers. This project was inspired by his work and uses his implementation patterns.
 
